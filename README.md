@@ -7,8 +7,8 @@ human understable code
 
 ## Plan  (¬‿¬ )
 1. Create a virtual machine with minimal instrustion set(for sake of simplicity) to emulate
-pikachu. Of course, it is a pikachu, that's why it will on base 3(because they can understand 3 words)
-number system rather 2.
+pikachu. Of course, it is a pikachu, that's why it will on base 3
+number system(because they can understand 3 words) rather than 2.
 
 2. Create an assembly syntax for the emulated pikachu
 
