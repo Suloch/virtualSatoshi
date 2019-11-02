@@ -1,8 +1,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "messages.h"
 #include "machine.h"
+#include "utils.h"
 
 int main(int argc, char **argv)
 {
@@ -22,7 +24,7 @@ int main(int argc, char **argv)
 
   char ch, *buffer;
   int len=1, i=0;
-  buffer = malloc(sizeof(1) * char);
+  buffer = malloc(sizeof(char) * len);
 
   if(buffer == NULL)
   {
@@ -39,5 +41,15 @@ int main(int argc, char **argv)
       buffer = realloc(buffer, sizeof(len));
     }
   }
+  char *program = convert(buffer, i);
+
+  if(buffer == NUll){
+    fprintf(stderr, "%s\n", INVALID_CODE0);
+    return 3;
+  }
+  init_machine();
+  load_program(program, strlen(program));
+  free(buffer);
+  free(program);
   return 0;
 }
