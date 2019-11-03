@@ -1,4 +1,5 @@
 #include<string.h>
+#include <stdlib.h>
 
 char *convert(char *buffer, int len)
 {
@@ -26,7 +27,7 @@ char *convert(char *buffer, int len)
         {
           if(strcmp(tok, "PIKACHU") == 0)
           {
-            program[i] = '+'
+            program[i] = '+';
           }
           else
           {

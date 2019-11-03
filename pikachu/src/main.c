@@ -43,12 +43,12 @@ int main(int argc, char **argv)
   }
   char *program = convert(buffer, i);
 
-  if(buffer == NUll){
+  if(buffer == NULL){
     fprintf(stderr, "%s\n", INVALID_CODE0);
     return 3;
   }
-  init_machine();
-  load_program(program, strlen(program));
+  machine *m = init_machine();
+  load_program(m, program, strlen(program));
   free(buffer);
   free(program);
   return 0;

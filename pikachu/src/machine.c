@@ -1,30 +1,44 @@
 
 #include "machine.h"
+#include <stdlib.h>
 
-void init_machine()
+int NUM_REG = 9;
+int LEN_REG = 16;
+int NUM_MEMORY =  19683; /* 3 ^ 9 = 19683 */
+int LEN_MEMORY = 6;
+
+machine *init_machine()
 {
+  int i, j;
+  /*
+  allocate space for registers and memory
+  */
+
+  machine * m = malloc(sizeof(machine));
+  m -> R = malloc(sizeof(char *) * NUM_REG);
+  for(i = 0; i < NUM_REG; i++)
+  {
+    m -> R[i] = malloc(sizeof(char) * LEN_REG);
+  }
+  m -> M = malloc(sizeof(char ) * (NUM_MEMORY * LEN_MEMORY));
   /*
   set all register and memory values to zero
   */
-  int i, j;
   for(i = 0; i < NUM_REG; i++)
   {
     for(j = 0; j < LEN_REG; j++)
     {
-      m.R = 0;
+      m -> R[i][j] = 0;
     }
   }
 
-  for(i = 0; i < NUM_MEMORY; i++)
+  for(i = 0; i < NUM_MEMORY * LEN_MEMORY; i++)
   {
-    for(j = 0; j < LEN_MEMORY; j++)
-    {
-      m.M = 0;
-    }
+      m -> M[i] = 0;
   }
 }
 
-int load_program(char *program, int len)
+int load_program(machine *m, char *program, int len)
 {
   /*
   load the input program in memory
@@ -41,7 +55,20 @@ int load_program(char *program, int len)
   int i;
   for(i = 0; i < len; i++)
   {
-    m.M + i = program[i]
+    m -> M[i] = program[i];
   }
+  return 0;
+}
+
+int delete_machine(machine *m)
+{
+  int i;
+  for(i = 0; i < NUM_REG; i++)
+  {
+    free(m -> R[i]);
+  }
+  free(m -> M);
+  free(m -> R);
+  free(m);
   return 0;
 }

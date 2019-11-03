@@ -1,22 +1,19 @@
 
-int NUM_REG = 9;
-int LEN_REG = 16;
-int NUM_MEMORY =  19683 /* 3 ^ 9 = 19683 */
-int LEN_MEMORY = 6;
-
 typedef struct
 {
   /*
   registers
    */
-  char R[LEN_REG][NUM_REG];
+  char **R;
   /*
   main memory
   */
-  char M[LEN_MEMORY][NUM_MEMORY];
+  char *M;
 
 }machine;
-machine m;
 
-void init_machine();
-int load_program(char *, int);
+machine *init_machine();
+
+int load_program(machine *, char *, int);
+
+int delete_machine(machine *);
