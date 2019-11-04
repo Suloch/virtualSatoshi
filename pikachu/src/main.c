@@ -8,6 +8,9 @@
 
 int main(int argc, char **argv)
 {
+  /*
+  read the Executable
+  */
   if(argc < 2)
   {
     fprintf(stderr, "%s\n", INVALID_ARGS0);
@@ -30,6 +33,7 @@ int main(int argc, char **argv)
   {
       fprintf(stderr, "%s\n", MEMORY_ALLOC0);
   }
+
   ch = fgetc(fp);
   while(ch != EOF)
   {
@@ -42,6 +46,9 @@ int main(int argc, char **argv)
     }
     ch = fgetc(fp);
   }
+  /*
+  convert into -1, 0, +1
+  */
   int l;
   char *program = convert(buffer, i, &l);
 
@@ -49,10 +56,24 @@ int main(int argc, char **argv)
     fprintf(stderr, "%s\n", INVALID_CODE0);
     return 3;
   }
-  machine *m = init_machine();
-  load_program(m, program, l);
+
   free(buffer);
+  /*
+  initialize the machine
+  */
+  machine *m = init_machine();
+  /*
+  load the program
+  */
+  load_program(m, program, l);
   free(program);
+  /*
+    todo: execute the program
+  */
+  execute_program(m);
+  /*
+  delete the machine
+  */
   delete_machine(m);
   return 0;
 }

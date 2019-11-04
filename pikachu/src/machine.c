@@ -1,11 +1,24 @@
 
 #include "machine.h"
+#include "utils.h"
 #include <stdlib.h>
 
 int NUM_REG = 9;
 int LEN_REG = 16;
 int NUM_MEMORY =  19683; /* 3 ^ 9 = 19683 */
 int LEN_MEMORY = 6;
+int LEN_OPCODE = 3;
+/*
+  R[0] : A(accumulator)
+  R[1] : B
+  R[2] : C
+  R[3] : D
+  R[4] : E
+  R[5] : F
+  R[6] : Stack Pointer
+  R[7] : Carry / Condition check register
+  R[8] : Program Counter
+*/
 
 machine *init_machine()
 {
@@ -64,6 +77,9 @@ int load_program(machine *m, char *program, int len)
 
 int delete_machine(machine *m)
 {
+  /*
+  free memory from the machine
+  */
   int i;
   for(i = 0; i < NUM_REG; i++)
   {
@@ -73,4 +89,37 @@ int delete_machine(machine *m)
   free(m -> R);
   free(m);
   return 0;
+}
+
+int execute_program(machine *m)
+{
+  /*
+  execute the program
+  */
+  while(1)
+  {
+    /*
+    read opcode(3 trits) starting from memory pointed by program counter
+    */
+    int program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - ternary_to_decimal("---------", LEN_REG);
+    int opcode = ternary_to_decimal((m -> M) + program_counter, LEN_OPCODE);
+    switch (opcode)
+    {
+      case -13: /*mov instructions*/break;
+      case -12: /*mvi instructions*/break;
+      case -11: /*and with accumulato*/break;
+      case -10: /*or with accumulator*/break;
+      case  -9: /*increment a register*/break;
+      case  -8: /*decrememt a register*/break;
+      case  -7: /*compare two registers*/ break;
+      case  -6: /*rotate left a register*/break;
+      case  -5: /*rotate right a register*/ break;
+      case  -4: /*Push the register variables on stack*/break;
+      case  -3: /*Pop register variables from stack */ break;
+      case  -2: /*Interrupt to display a register to stdout*/break;
+      case  -1: /*Interrupt to input from stdin to buffer*/ break;
+      case   0: /*Halt the machine*/break;
+      default : /*generate not implemented error*/
+    }
+  }
 }

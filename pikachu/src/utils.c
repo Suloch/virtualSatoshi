@@ -47,3 +47,30 @@ char *convert(char *buffer, int len, int *program_length)
   * program_length = i;
   return program;
 }
+
+int ternary_to_decimal(char *ternary_number, int len)
+{
+  int i;
+  int decimal_number = 0;
+  for(i = 0; i < len; i++)
+  {
+    int t;
+    if(ternary_number[i] == '-')
+    {
+      t = -1;
+    }
+    else
+    {
+      if(ternary_number[i] == '+')
+      {
+        t = 1;
+      }
+      else
+      {
+          t = 0;
+      }
+    }
+    decimal_number = decimal_number * 3 + t;
+  }
+  return decimal_number;
+}
