@@ -36,6 +36,8 @@ machine *init_machine()
   {
       m -> M[i] = 0;
   }
+
+  return m;
 }
 
 int load_program(machine *m, char *program, int len)

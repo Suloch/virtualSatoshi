@@ -1,7 +1,7 @@
 #include<string.h>
 #include <stdlib.h>
 
-char *convert(char *buffer, int len)
+char *convert(char *buffer, int len, int *program_length)
 {
   /*
     conver PI PI PIKA PIKACHU like string
@@ -37,11 +37,13 @@ char *convert(char *buffer, int len)
         }
     }
     i++;
-    if(i == len)
+    if(i == l)
     {
-      len = len * 2;
-      program = realloc(program, len * sizeof(char));
+      l = l * 2;
+      program = realloc(program, l * sizeof(char));
     }
+    tok = strtok(NULL, " ");
   }
+  * program_length = i;
   return program;
 }

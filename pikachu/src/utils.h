@@ -1,2 +1,2 @@
 
-char *convert(char *, int);
+char *convert(char *, int, int *);
