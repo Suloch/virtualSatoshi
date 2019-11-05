@@ -74,3 +74,23 @@ int ternary_to_decimal(char *ternary_number, int len)
   }
   return decimal_number;
 }
+
+int decimal_to_ternary(int n, char *number, int len)
+{
+  /*
+  function to convert decimal to ternary
+  */
+  int i = 0;
+  for(i = 0; i < len; i++)
+  {
+    int digit = n % 3;
+    switch (digit)
+    {
+      case  0: number[len - i - 1] = '0'; break;
+      case  1: number[len - i - 1] = '+'; break;
+      case -1: number[len - i - 1] = '-'; break;
+    }
+    n = n / 3;
+  }
+  return 0;
+}
