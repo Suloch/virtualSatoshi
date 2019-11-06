@@ -29,6 +29,7 @@ int test_utils()
   {
     fprintf(stderr, "%s\n", "\"++-0-\" returns 98");
   }
+  printf("%d\n", ternary_to_decimal("---------", 9));
   return 0;
 }
 
