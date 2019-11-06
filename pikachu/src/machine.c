@@ -130,7 +130,7 @@ int execute_program(machine *m)
                 int reg2 = ternary_to_decimal((m -> M) + program_counter, LEN_REG_NO);
                 /*move the program_counter */
                 decimal_to_ternary(program_counter + 3, m -> R[8], LEN_REG);
-                
+
                 if(reg1 > 6 || reg1 < 0)
                 {
                   return -1;
@@ -172,6 +172,27 @@ int execute_program(machine *m)
                 program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - ternary_to_decimal("---------", LEN_REG);
                 int reg1 = ternary_to_decimal((m -> M) + program_counter, LEN_REG_NO);
 
+                decimal_to_ternary(program_counter + 3, m -> R[8], LEN_REG);
+
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - ternary_to_decimal("---------", LEN_REG);
+
+
+                char *op1;
+                if(reg1 < 0 || reg1 > 6)
+                {
+                  return -1;
+                }
+                if(reg1 == 6)
+                {
+                  op1 = (m -> M) + (ternary_to_decimal(m -> R[1]) - ternary_to_decimal("---------", LEN_REG));
+                }
+                else
+                {
+                  op1 = m -> R[reg1];
+                }
+
+                mov(op1, program_counter, LEN_REG);
+                
                 break;
       case -11: /*and with accumulato*/break;
       case -10: /*or with accumulator*/break;
