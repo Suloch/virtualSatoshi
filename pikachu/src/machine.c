@@ -113,7 +113,7 @@ int execute_program(machine *m)
     /*
     read opcode(3 trits) starting from memory pointed by program counter
     */
-    int program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - ternary_to_decimal("---------", LEN_REG);
+    int program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
     int opcode = ternary_to_decimal((m -> M) + program_counter, LEN_OPCODE);
     /*
     move the program counter 3 trits
@@ -124,15 +124,15 @@ int execute_program(machine *m)
     {
       case -13: /*mov instructions*/
                 /*read the number of the first register*/
-                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - ternary_to_decimal("---------", LEN_REG);
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
                 reg1 = ternary_to_decimal((m -> M) + program_counter, LEN_REG_NO);
                 /*move the program counter */
-                decimal_to_ternary(program_counter + 3, m -> R[8], LEN_REG);
+                decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
                 /*read the number of second register */
-                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - ternary_to_decimal("---------", LEN_REG);
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
                 reg2 = ternary_to_decimal((m -> M) + program_counter, LEN_REG_NO);
                 /*move the program_counter */
-                decimal_to_ternary(program_counter + 3, m -> R[8], LEN_REG);
+                decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
                 program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - ternary_to_decimal("---------", LEN_REG);
 
                 if(reg1 > 6 || reg1 < 0)
@@ -146,10 +146,10 @@ int execute_program(machine *m)
 
                 if(reg1 == 6)
                 {
-                  op1 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - ternary_to_decimal("---------", LEN_REG));
+                  op1 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - OFFSET);
                   if(reg2 == 6)
                   {
-                    op2 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - ternary_to_decimal("---------", LEN_REG));
+                    op2 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - OFFSET);
                   }
                   else
                   {
@@ -161,7 +161,7 @@ int execute_program(machine *m)
                   op1 = m -> R[reg1];
                   if(reg2 == 6)
                   {
-                    op2 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - ternary_to_decimal("---------", LEN_REG));
+                    op2 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - OFFSET);
                   }
                   else
                   {
@@ -170,7 +170,7 @@ int execute_program(machine *m)
                 }
                 mov(op1, op2, LEN_REG);
                 /*move the program_counter */
-                decimal_to_ternary(program_counter + 3, m -> R[8], LEN_REG);
+                decimal_to_ternary(program_counter + OFFSET 3, m -> R[8], LEN_REG);
                 break;
 
       case -12: /*mvi instructions*/
@@ -198,8 +198,9 @@ int execute_program(machine *m)
                 }
 
                 mov((m -> M) + program_counter, op1, LEN_REG);
-
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
                 break;
+
       case -11: /*and with accumulato*/break;
       case -10: /*or with accumulator*/break;
       case  -9: /*increment a register*/break;
@@ -209,9 +210,21 @@ int execute_program(machine *m)
       case  -5: /*rotate right a register*/ break;
       case  -4: /*Push the register variables on stack*/break;
       case  -3: /*Pop register variables from stack */ break;
-      case  -2: /*Interrupt to display a register to stdout*/break;
-      case  -1: /*Interrupt to input from stdin to buffer*/ break;
-      case   0: /*Halt the machine*/break;
+      case  -2: /*Interrupt to display a register to stdout*/
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+                reg1 = ternary_to_decimal((m -> M) + program_counter, LEN_REG_NO);
+                if(reg1 < 0 || reg1 > 6)
+                {
+                  return -1;
+                }
+                if(reg1 == 6)
+                {
+                  op1 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - OFFSET);
+                }
+                display(op1, LEN_REG);
+                break;
+      case  -1: /*Interrupt to take input from stdin to buffer*/ break;
+      case   0: /*Halt the machine*/ return 0; break;
       default : /*generate not implemented error*/;
     }
   }
