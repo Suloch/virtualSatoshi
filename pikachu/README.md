@@ -12,7 +12,7 @@ PIKACHU = 1
 | Adress Space  | 3^9           |
 | Registers     | 9             |
 | Instrunction  |               |
-| Length        | 9 trits       |
+| Length        | 9, 15 trits   |
 | Opcode Length | 3 trits       |
 
 Supports keyboard and monitor for input output
@@ -38,15 +38,15 @@ this will copy the value from register B to accumulator
  `PIKA PIKA PIKACHU` -> value 1 represents 1st register   
 
 ### MVI
-transer 3 trits to register or memory   
+transer 9 trits to register or memory   
 opcode: `PI PI PIKA`   
 Usage: opcode register, 3trits   
-Example: `PI PI PIKA PIKACHU PIKA PI PI PI PI`   
-this will copy -13 to memory location stored using BCD register   
+Example: `PI PI PIKA PIKACHU PI PIKA PIKA PIKA PIKA PIKA PIKA PIKA PI PI PI PI`   
+this will copy -13 to memory location stored using  register   
  `PI PI PIKA` -> opcode   
- `PIKACHU PIKA PI` -> value 8 represents memory refrenced using BCD register   
- `PI PI PI` -> random value   
- 
+ `PIKACHU PIKA PI` -> value 6 represents memory refrenced using BCD register   
+ `PIKA PIKA PIKA PIKA PIKA PIKA PI PI PI` -> random value   
+
 ### AND
 Logical and with the accumulator   
 opcode: `PI PI PIKACHU`   
