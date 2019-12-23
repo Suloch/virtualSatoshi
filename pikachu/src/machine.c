@@ -169,15 +169,14 @@ int execute_program(machine *m)
                   }
                 }
                 mov(op1, op2, LEN_REG);
-                /*move the program_counter */
-                decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
                 break;
 
       case -12: /*mvi instructions*/
-
+                /*read the number of the first register*/
                 program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
                 reg1 = ternary_to_decimal((m -> M) + program_counter, LEN_REG_NO);
 
+                /*move the program counter */
                 decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
 
 
@@ -198,7 +197,9 @@ int execute_program(machine *m)
                 }
 
                 mov((m -> M) + program_counter, op1, LEN_REG);
-                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+                /* move the program counter
+                */
+                decimal_to_ternary(program_counter + OFFSET + 9, m -> R[8], LEN_REG);
                 break;
 
       case -11: /*and with accumulato*/break;
