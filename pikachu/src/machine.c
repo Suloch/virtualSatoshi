@@ -170,7 +170,7 @@ int execute_program(machine *m)
                 }
                 mov(op1, op2, LEN_REG);
                 /*move the program_counter */
-                decimal_to_ternary(program_counter + OFFSET 3, m -> R[8], LEN_REG);
+                decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
                 break;
 
       case -12: /*mvi instructions*/
@@ -220,6 +220,10 @@ int execute_program(machine *m)
                 if(reg1 == 6)
                 {
                   op1 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - OFFSET);
+                }
+                else
+                {
+                  op1 = m -> R[reg1];
                 }
                 display(op1, LEN_REG);
                 break;
