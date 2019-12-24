@@ -202,8 +202,62 @@ int execute_program(machine *m)
                 decimal_to_ternary(program_counter + OFFSET + 9, m -> R[8], LEN_REG);
                 break;
 
-      case -11: /*and with accumulato*/break;
-      case -10: /*or with accumulator*/break;
+      case -11: /*and with accumulator*/
+                /*read the number of the first register*/
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+                reg1 = ternary_to_decimal((m -> M) + program_counter, LEN_REG_NO);
+
+                /*move the program counter */
+                decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
+
+
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+
+
+                if(reg1 < 0 || reg1 > 6)
+                {
+                  return -1;
+                }
+                if(reg1 == 6)
+                {
+                  op1 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - OFFSET);
+                }
+                else
+                {
+                  op1 = m -> R[reg1];
+                }
+
+                and(op1, m->R[0], LEN_REG);
+                break;
+
+      case -10: /*or with accumulator*/
+                /*read the number of the first register*/
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+                reg1 = ternary_to_decimal((m -> M) + program_counter, LEN_REG_NO);
+
+                /*move the program counter */
+                decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
+
+
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+
+
+                if(reg1 < 0 || reg1 > 6)
+                {
+                  return -1;
+                }
+                if(reg1 == 6)
+                {
+                  op1 = (m -> M) + (ternary_to_decimal(m -> R[1], LEN_REG) - OFFSET);
+                }
+                else
+                {
+                  op1 = m -> R[reg1];
+                }
+
+                or(op1, m->R[0], LEN_REG);
+                break;
+                
       case  -9: /*increment a register*/break;
       case  -8: /*decrememt a register*/break;
       case  -7: /*compare two registers*/ break;
