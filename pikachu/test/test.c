@@ -1,5 +1,8 @@
 #include "../src/utils.h"
 #include<stdio.h>
+#include "test_mvi.h"
+#include "test_mov.h"
+
 int test_utils()
 {
   /*
@@ -35,5 +38,9 @@ int test_utils()
 
 int main()
 {
-  return test_utils();
+  test_utils();
+  test_mvi_main();
+  test_mov_main();
+  
+  return 0;
 }

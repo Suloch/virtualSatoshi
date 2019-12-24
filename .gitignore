@@ -50,4 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+#pikachu build files
 pikachu/src/build/
+#utility executables
+pikachu/utils/bin/
