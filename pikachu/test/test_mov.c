@@ -4,23 +4,7 @@
 #include "../src/utils.h"
 #include <string.h>
 #include<stdlib.h>
-
-machine *test_program_mov(char *buffer, int length)
-{
-  int l;
-  printf("%s\n", "Converting input to ternary...");
-  char temp[1000];
-  strcpy(temp, buffer);
-  char * program = convert(temp, length, &l);
-  printf("%s\n", "Initializing machine");
-  machine *m = init_machine();
-  printf("%s\n", "Loading program");
-  load_program(m, program, l);
-  free(program);
-  printf("%s\n", "Executing program");
-  execute_program(m);
-  return m;
-}
+#include "execute.h"
 
 int test_mov(char *buffer, int reg1, int reg2)
 {
@@ -31,7 +15,7 @@ int test_mov(char *buffer, int reg1, int reg2)
     return 1;
   }
   fprintf(stderr, "copying from %c to %c\n", reg1+65, reg2+65);
-  machine *m = test_program_mov(buffer, strlen(buffer));
+  machine *m = test_program(buffer, strlen(buffer));
   char *op1, *op2;
   if(reg1 == 6)
   {
