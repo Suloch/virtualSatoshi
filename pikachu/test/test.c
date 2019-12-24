@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include "test_mvi.h"
 #include "test_mov.h"
-
+#include "test_and.h"
 int test_utils()
 {
   /*
@@ -38,9 +38,10 @@ int test_utils()
 
 int main()
 {
-  test_utils();
-  test_mvi_main();
-  test_mov_main();
-  
+  // test_utils();
+  // test_mvi_main();
+  // test_mov_main();
+  test_and_main();
+
   return 0;
 }
