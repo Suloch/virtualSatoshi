@@ -17,7 +17,7 @@ int display(char *buffer, int len)
   int i;
   for(i = 0; i < len; i++)
   {
-    fputc(buffer[i], stdin);
+    fputc(buffer[i], stdout);
   }
 }
 
