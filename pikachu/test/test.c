@@ -5,6 +5,7 @@
 #include "test_and.h"
 #include "test_or.h"
 #include "test_cmp.h"
+#include "test_jmp.h"
 
 int test_utils()
 {
@@ -46,6 +47,7 @@ int main()
   // test_mov_main();
   // test_and_main();
   // test_or_main();
-  test_cmp_main();
+  // test_cmp_main();
+  test_jmp_main();
   return 0;
 }

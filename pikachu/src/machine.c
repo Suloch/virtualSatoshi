@@ -190,9 +190,9 @@ int execute_program(machine *m)
                 int carry = 0;
                 /*check for overflow
                 */
-                if(num > OFFSET)
+                if(num > -OFFSET)
                 {
-                  num = -OFFSET;
+                  num = OFFSET;
                   carry = 1;
                 }
                 /*set the register and the carry
@@ -213,9 +213,9 @@ int execute_program(machine *m)
                 carry = 0;
                 /*check for overflow
                 */
-                if(num < -OFFSET)
+                if(num < OFFSET)
                 {
-                  num = OFFSET;
+                  num = -OFFSET;
                   carry = -1;
                 }
                 /*set the register and the carry
