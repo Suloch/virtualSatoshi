@@ -19,6 +19,8 @@ int display(char *buffer, int len)
   {
     fputc(buffer[i], stdout);
   }
+  fputc('\n', stdout);
+  return len;
 }
 
 int and(char* op, char *A, int len)
@@ -127,6 +129,7 @@ int or(char* op, char *A, int len)
     {
       res = '-';
     }
+    A[i] = res;
   }
 
   return 0;

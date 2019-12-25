@@ -8,7 +8,6 @@
 #include<string.h>
 #include "execute.h"
 
-
 int test_mvi(char *buffer, int reg, int value)
 {
   printf("------------------------------------------------------------------------------------------------------------------\n");
@@ -34,7 +33,7 @@ int test_mvi(char *buffer, int reg, int value)
     printf("%s\n", "Checking the value at memory");
     if(ternary_to_decimal(m->M + ternary_to_decimal(m -> R[1], 9) + 9841, 9) != value)
     {
-      fprintf(stderr, "memory not %d: %d\n", value, ternary_to_decimal(m -> R[0], 9));
+      fprintf(stderr, "memory not %d: %d\n", value, ternary_to_decimal(m -> R[1], 9));
       printf("------------------------------------------------------------------------------------------------------------------\n");
       return 2;
     }
@@ -48,7 +47,7 @@ int test_mvi(char *buffer, int reg, int value)
     printf("%s\n", "Checking the registers values");
     if(ternary_to_decimal(m -> R[reg], 9) != value)
     {
-      fprintf(stderr, "%c not %d: %d\n", reg+65, value, ternary_to_decimal(m -> R[0], 9));
+      fprintf(stderr, "%c not %d: %d\n", reg+65, value, ternary_to_decimal(m -> R[1], 9));
       printf("------------------------------------------------------------------------------------------------------------------\n");
       return 2;
     }
