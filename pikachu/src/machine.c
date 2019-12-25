@@ -273,7 +273,74 @@ int execute_program(machine *m)
                 display(op1, LEN_REG);
                 break;
       case  -1: /*Interrupt to take input from stdin to buffer*/ break;
+
       case   0: /*Halt the machine*/ return 0; break;
+
+      case   1: /*jump the program counter to a memory location
+                */
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+                /* set the program counter to the memory location in the instruction
+                */
+                mov((m -> M) + program_counter, m -> R[8], LEN_REG);
+                break;
+
+      case   2: /*jump if the flag is 0
+                */
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+                flag = ternary_to_decimal(m -> R[7], LEN_REG);
+
+                if(flag == 0)
+                {
+                  /* if flag is zero copy the value in memory to program counter
+                  */
+                  mov((m -> M) + program_counter, m -> R[8], LEN_REG);
+                }
+                else
+                {
+                  /*if flag is not zero skip 12 trits used for the instruction
+                  */
+                  decimal_to_ternary(program_counter + OFFSET + 12, m -> R[8], LEN_REG);
+                }
+                break;
+
+      case   3: /*jump if the flag is 1
+                */
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+                flag = ternary_to_decimal(m -> R[7], LEN_REG);
+
+                if(flag == 1)
+                {
+                  /* if flag is 1 copy the value in memory to program counter
+                  */
+                  mov((m -> M) + program_counter, m -> R[8], LEN_REG);
+                }
+                else
+                {
+                  /*if flag is 1 skip 12 trits used for the instruction
+                  */
+                  decimal_to_ternary(program_counter + OFFSET + 12, m -> R[8], LEN_REG);
+                }
+                break;
+
+      case   4: /*jump if the flag is -1
+                */
+                program_counter = ternary_to_decimal(m -> R[8], LEN_REG) - OFFSET;
+                flag = ternary_to_decimal(m -> R[7], LEN_REG);
+
+                if(flag == -1)
+                {
+                  /* if flag is -1 copy the value in memory to program counter
+                  */
+                  mov((m -> M) + program_counter, m -> R[8], LEN_REG);
+                }
+                else
+                {
+                  /*if flag is -1 skip 12 trits used for the instruction
+                  */
+                  decimal_to_ternary(program_counter + OFFSET + 12, m -> R[8], LEN_REG);
+                }
+                break;
+
       default : /*generate not implemented error*/;
     }
   }
