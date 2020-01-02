@@ -134,3 +134,26 @@ int or(char* op, char *A, int len)
 
   return 0;
 }
+
+int push(char *M, int offset, char **R)
+{
+  int i, j;
+  for(i = 0; i < 9; i++)
+  {
+    for(j = 0; j < 9; j++)
+    {
+        M[i*9 + j] = R[i][j]
+    }
+  }
+}
+
+int pop(char *M, int offset, char **R)
+{
+  for(i = 8; i >= 0; i--)
+  {
+    for(j = 8; j >= 0; j--)
+    {
+      R[i][j] =   M[i*9 + j]
+    }
+  }
+}

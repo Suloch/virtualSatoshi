@@ -11,6 +11,7 @@ int LEN_MEMORY = 6;
 int LEN_OPCODE = 3;
 int LEN_REG_NO = 3;
 int OFFSET = -9841;
+int STACK_START = -9598;
 /*
   R[0] : A(accumulator)
   R[1] : B
@@ -54,6 +55,10 @@ machine *init_machine()
   {
     m -> R[8][j] = '-';
   }
+
+  /*init the stack pointer
+  */
+  decimal_to_ternary(STACK_START, m -> R[6], 9)
 
   for(i = 0; i < NUM_MEMORY * LEN_MEMORY; i++)
   {
@@ -262,9 +267,23 @@ int execute_program(machine *m)
                 break;
 
       case  -4: /*Push the register variables on stack*/
+                push(m -> M, ternary_to_decimal(m -> R[6]) - OFFSET, m -> R);
+                /*move the stack pointer
+                */
+                decimal_to_ternary(program_counter + OFFSET + 81, m -> R[8], LEN_REG);
+                /*move the program counter
+                */
+                decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
                 break;
 
       case  -3: /*Pop register variables from stack */
+                pop(m -> M, ternary_to_decimal(m -> R[6]) - OFFSET, m -> R);
+                /*move the stack pointer
+                */
+                decimal_to_ternary(program_counter + OFFSET - 81, m -> R[8], LEN_REG);
+                /*move the program counter
+                */
+                decimal_to_ternary(program_counter + OFFSET + 3, m -> R[8], LEN_REG);
                 break;
 
       case  -2: /*Interrupt to display a register to stdout*/
