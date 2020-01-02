@@ -58,7 +58,7 @@ machine *init_machine()
 
   /*init the stack pointer
   */
-  decimal_to_ternary(STACK_START, m -> R[6], 9)
+  decimal_to_ternary(STACK_START, m -> R[6], 9);
 
   for(i = 0; i < NUM_MEMORY * LEN_MEMORY; i++)
   {
@@ -267,7 +267,7 @@ int execute_program(machine *m)
                 break;
 
       case  -4: /*Push the register variables on stack*/
-                push(m -> M, ternary_to_decimal(m -> R[6]) - OFFSET, m -> R);
+                push(m -> M, ternary_to_decimal(m -> R[6], LEN_REG) - OFFSET, m -> R);
                 /*move the stack pointer
                 */
                 decimal_to_ternary(program_counter + OFFSET + 81, m -> R[8], LEN_REG);
@@ -277,7 +277,7 @@ int execute_program(machine *m)
                 break;
 
       case  -3: /*Pop register variables from stack */
-                pop(m -> M, ternary_to_decimal(m -> R[6]) - OFFSET, m -> R);
+                pop(m -> M, ternary_to_decimal(m -> R[6], LEN_REG) - OFFSET, m -> R);
                 /*move the stack pointer
                 */
                 decimal_to_ternary(program_counter + OFFSET - 81, m -> R[8], LEN_REG);
