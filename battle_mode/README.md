@@ -46,7 +46,7 @@ Pikachu can unserstand the move names directly, therefore the assembler will con
 3 trits is represented with one alphabet starting from A(-13) to M(-1), N(12), O(0), P(1) to Z(11), _(13)
 
 ## Comments
- comments start with ':' and end with newline
+ comments start with '-' and end with newline
 
 ## Examples
 
@@ -54,7 +54,7 @@ Pikachu can unserstand the move names directly, therefore the assembler will con
 
 ```
 i_choose_you:
-  CHARGE_BEAM ELECTRIFY H_W :copies -14*9 + 13*3 + 8
-  DISCHARGE ELECTRIFY       :print the value of the register
-  ZIPPY_ZAP                 :halt the machine
+  CHARGE_BEAM ELECTRIFY H_W -copies -14*9 + 13*3 + 8
+  DISCHARGE ELECTRIFY       -print the value of the register
+  ZIPPY_ZAP                 -halt the machine
 ```
