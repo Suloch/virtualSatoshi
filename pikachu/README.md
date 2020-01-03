@@ -19,9 +19,9 @@ Supports keyboard and monitor for input output
 
 ### Registers
 1 accumulator (A)   
-6 registers are all purpose (B-G)   
-1 carry register / condition check register register(X)   
-1 counter(I)   
+6 registers are all purpose (B-F)   
+1 carry register / condition check register register(G)   
+1 counter(H)   
 
 ## Instrunction set
 Not enough reasearch done, so I will add the basic instructions for now      
