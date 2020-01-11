@@ -142,7 +142,7 @@ int push(char *M, int offset, char **R)
   {
     for(j = 0; j < 9; j++)
     {
-        M[i*9 + j] = R[i][j];
+        M[i*9 + j + offset] = R[i][j];
     }
   }
 }
@@ -154,7 +154,7 @@ int pop(char *M, int offset, char **R)
   {
     for(j = 8; j >= 0; j--)
     {
-      R[i][j] =   M[i*9 + j];
+      R[i][j] =   M[i*9 + j + offset];
     }
   }
 }
