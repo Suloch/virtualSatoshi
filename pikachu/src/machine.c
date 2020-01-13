@@ -364,3 +364,9 @@ int execute_program(machine *m)
     }
   }
 }
+
+char * get_machine_state(machine *m)
+{
+  char * state = "{\"M\": \"---++++00--++++0+----\", \"R\":\"---+++---0\"}";
+  return state;
+}

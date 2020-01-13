@@ -5,6 +5,8 @@
 #include "messages.h"
 #include "machine.h"
 #include "utils.h"
+#include "server.h"
+#include <unistd.h>
 
 int main(int argc, char **argv)
 {
@@ -70,10 +72,25 @@ int main(int argc, char **argv)
   /*
     todo: execute the program
   */
-  execute_program(m);
-  /*
-  delete the machine
-  */
-  delete_machine(m);
+  int server_process = fork();
+  if (server_process > 0)
+  {
+    /*main thread to execute the program
+      */
+    execute_program(m);
+    /*
+    delete the machine
+    */
+    delete_machine(m);
+  }
+  else
+  {
+    if(server_process == 0)
+    {
+      /*start the server
+        */
+      start();
+    }
+  }
   return 0;
 }

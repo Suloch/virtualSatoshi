@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<head>
+  <title>Home</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+  socket = new WebSocket("ws://localhost:8000/",);
+  socket.onopen = function(e) {
+    console.log("[open] Connection established");
+    console.log("Sending to server");
+    socket.send("My name is John");
+  };
+  socket.onmessage = function(event) {
+    console.log(`[message] Data received from server: ${event.data}`);
+  };
+</script>
