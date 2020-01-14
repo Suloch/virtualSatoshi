@@ -3,6 +3,8 @@
 #include "utils.h"
 #include "instruction.h"
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 int NUM_REG = 9;
 int LEN_REG = 9;
@@ -365,8 +367,30 @@ int execute_program(machine *m)
   }
 }
 
-char * get_machine_state(machine *m)
+char * get_machine_state(machine *m, int operation)
 {
-  char * state = "{\"M\": \"---++++00--++++0+----\", \"R\":\"---+++---0\"}";
-  return state;
+  static int last_operation;
+  static char * state = NULL;
+
+  if(operation == 1)
+  {
+    state = malloc( sizeof(char) * 19683+81);
+    memcpy(state, m -> M, 19683);
+    memcpy(state + 19683, m -> R, 81);
+  }
+
+  if(operation == 2)
+  {
+    if(last_operation == 1)
+    {
+      return state;
+    }
+    else
+    {
+      return NULL;
+    }
+  }
+
+  last_operation = operation;
+  return NULL;
 }

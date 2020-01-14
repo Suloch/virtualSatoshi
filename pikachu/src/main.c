@@ -7,6 +7,7 @@
 #include "utils.h"
 #include "server.h"
 #include <unistd.h>
+#include <sys/wait.h>
 
 int main(int argc, char **argv)
 {
@@ -82,6 +83,7 @@ int main(int argc, char **argv)
     delete the machine
     */
     delete_machine(m);
+    wait(NULL);
   }
   else
   {

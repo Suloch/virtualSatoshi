@@ -1,14 +1,3 @@
-/*
- * lws-minimal-ws-server-echo
- *
- * Written in 2010-2019 by Andy Green <andy@warmcat.com>
- *
- * This file is made available under the Creative Commons CC0 1.0
- * Universal Public Domain Dedication.
- *
- * This demonstrates a ws server that echoes back what it was sent, in a way
- * compatible with autobahn -m fuzzingclient
- */
 
 #include <libwebsockets.h>
 #include <string.h>
@@ -106,3 +95,4 @@ int start()
 
         return interrupted != 2;
 }
+ 

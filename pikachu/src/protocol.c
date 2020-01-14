@@ -19,8 +19,12 @@ static int callback_machine_state_server(struct lws *wsi, enum lws_callback_reas
     case LWS_CALLBACK_SERVER_WRITEABLE: lwsl_user("LWS_CALLBACK_SERVER_WRITEABLE\n");
                                         break;
     case LWS_CALLBACK_RECEIVE:          lwsl_user("LWS_CALLBACK_SERVER_RECIEVE\n");
-                                        char * msg = get_machine_state(NULL);
+                                        char *msg = NULL;
+                                        do{
+                                          char * msg = get_machine_state(NULL, 2);
+                                        }while(msg == NULL);
                                         lws_write(wsi, msg, strlen(msg), lws_write_ws_flags(LWS_WRITE_TEXT, '1', '1'));
+                                        lws_callback_on_writable(wsi);
                                         break;
     case LWS_CALLBACK_CLOSED:           lwsl_user("LWS_CALLBACK_CLOSED\n");
                                         break;

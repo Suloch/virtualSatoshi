@@ -20,4 +20,4 @@ int delete_machine(machine *);
 
 int execute_program(machine *);
 
-char *get_machine_state(machine *);
+char *get_machine_state(machine *, int);
