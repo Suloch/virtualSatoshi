@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include<stdio.h>
 
 int NUM_REG = 9;
 int LEN_REG = 9;
@@ -47,7 +48,7 @@ machine *init_machine()
   {
     for(j = 0; j < LEN_REG; j++)
     {
-      m -> R[i][j] = 0;
+      m -> R[i][j] = '0';
     }
   }
   /*
@@ -64,7 +65,7 @@ machine *init_machine()
 
   for(i = 0; i < NUM_MEMORY * LEN_MEMORY; i++)
   {
-      m -> M[i] = 0;
+      m -> M[i] = '0';
   }
 
   return m;
@@ -142,6 +143,8 @@ int execute_program(machine *m)
   char * op1, *op2;
   while(1)
   {
+    get_machine_state(m, 1);
+    sleep(2);
     /*
     read opcode(3 trits) starting from memory pointed by program counter
     */
@@ -370,20 +373,24 @@ int execute_program(machine *m)
 char * get_machine_state(machine *m, int operation)
 {
   static int last_operation;
-  static char * state = NULL;
+  static char * state;
 
   if(operation == 1)
   {
-    state = malloc( sizeof(char) * 19683+81);
-    memcpy(state, m -> M, 19683);
-    memcpy(state + 19683, m -> R, 81);
+    state = malloc(malloc(sizeof(char ) * ((NUM_MEMORY * LEN_MEMORY)+1)));
+    memcpy(state, m -> M, NUM_MEMORY * LEN_MEMORY);
+    state[NUM_MEMORY * LEN_MEMORY] = '\0';
+    last_operation = 1;
+    return NULL;
   }
 
   if(operation == 2)
   {
     if(last_operation == 1)
     {
+      last_operation = 2;
       return state;
+
     }
     else
     {
@@ -391,6 +398,5 @@ char * get_machine_state(machine *m, int operation)
     }
   }
 
-  last_operation = operation;
   return NULL;
 }

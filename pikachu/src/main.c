@@ -2,12 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 #include "messages.h"
 #include "machine.h"
 #include "utils.h"
 #include "server.h"
-#include <unistd.h>
-#include <sys/wait.h>
 
 int main(int argc, char **argv)
 {
@@ -73,26 +72,19 @@ int main(int argc, char **argv)
   /*
     todo: execute the program
   */
-  int server_process = fork();
-  if (server_process > 0)
-  {
-    /*main thread to execute the program
-      */
-    execute_program(m);
-    /*
-    delete the machine
+
+  /*start the server in another thread
     */
-    delete_machine(m);
-    wait(NULL);
-  }
-  else
-  {
-    if(server_process == 0)
-    {
-      /*start the server
-        */
-      start();
-    }
-  }
+  pthread_t server_thread;
+  pthread_create(&server_thread, NULL, &start, NULL);
+  execute_program(m);
+  /*
+  delete the machine
+  */
+  delete_machine(m);
+  /* wait for the server to exit
+  */
+  pthread_join(server_thread, NULL);
+
   return 0;
 }

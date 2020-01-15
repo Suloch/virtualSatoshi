@@ -2,11 +2,57 @@
 <head>
   <title>Home</title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <style media="screen">
+       #memory {
+      width: 486px;
+      height: 486px;
+      margin-top: auto;
+      margin-left: auto;
+      margin-right: auto;
+      background: #fff;
+    }
+    .row {
+      width: auto;
+      height: 2px;
+      background: #313131;
+    }
+    .square {
+      width: 2px;
+      height: 2px;
+      margin: 0px;
+      display: inline-block;
+      float: left;
+      background: blue;
+    }
+   </style>
 </head>
 <body>
-
+  <div id="memory"></div>
 </body>
+
 <script type="text/javascript">
+var colors = {'0' : 'blue', '-': 'red', '+' : 'green'};
+var rows = 243;
+var columns = 243;
+var $row = $("<div />", {
+  class: 'row'
+});
+var $square = $("<div />", {
+  class: 'square'
+});
+$(document).ready(function () {
+    //add columns to the the temp row object
+    for (var i = 0; i < columns; i++) {
+        $row.append($square.clone());
+    }
+    //clone the temp row object with the columns to the wrapper
+    for (var i = 0; i < rows; i++) {
+        $("#memory").append($row.clone());
+    }
+});
+$(window).on('beforeunload', function(){
+  socket.close();
+});
   socket = new WebSocket("ws://localhost:8000/",);
   socket.onopen = function(e) {
     console.log("[open] Connection established");
@@ -14,6 +60,18 @@
     socket.send("My name is John");
   };
   socket.onmessage = function(event) {
-    console.log(`[message] Data received from server: ${event.data}`);
+      var mem = event.data;
+      var c = 0;
+      $("#memory").empty();
+      for(var i = 0; i < mem.length; i++)
+      {
+        if(mem.charAt(i) != '0' &&  mem.charAt(i) != '+' && mem.charAt(i) != '-')
+        {
+          console.log(mem.charAt(i));
+        }
+      }
   };
+
+
+
 </script>
