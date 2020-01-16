@@ -6,11 +6,14 @@
 #include <string.h>
 #include <unistd.h>
 #include<stdio.h>
+#include <pthread.h>
+
+pthread_mutex_t lock;
 
 int NUM_REG = 9;
 int LEN_REG = 9;
 int NUM_MEMORY =  19683; /* 3 ^ 9 = 19683 */
-int LEN_MEMORY = 6;
+int LEN_MEMORY = 9;
 int LEN_OPCODE = 3;
 int LEN_REG_NO = 3;
 int OFFSET = -9841;
@@ -373,14 +376,15 @@ int execute_program(machine *m)
 char * get_machine_state(machine *m, int operation)
 {
   static int last_operation;
-  static char * state;
-
+  static char * state = NULL;
+  pthread_mutex_lock(&lock);
   if(operation == 1)
   {
-    state = malloc(malloc(sizeof(char ) * ((NUM_MEMORY * LEN_MEMORY)+1)));
+    state = malloc(sizeof(char ) * ((NUM_MEMORY * LEN_MEMORY)+1));
     memcpy(state, m -> M, NUM_MEMORY * LEN_MEMORY);
     state[NUM_MEMORY * LEN_MEMORY] = '\0';
     last_operation = 1;
+    pthread_mutex_unlock(&lock);
     return NULL;
   }
 
@@ -389,14 +393,16 @@ char * get_machine_state(machine *m, int operation)
     if(last_operation == 1)
     {
       last_operation = 2;
+      pthread_mutex_unlock(&lock);
       return state;
 
     }
     else
     {
+      pthread_mutex_unlock(&lock);
       return NULL;
     }
   }
-
+  pthread_mutex_unlock(&lock);
   return NULL;
 }

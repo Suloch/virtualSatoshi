@@ -22,6 +22,7 @@ static int callback_machine_state_server(struct lws *wsi, enum lws_callback_reas
                                         {
                                           msg = get_machine_state(NULL, 2);
                                         }
+                                        printf("%ld\n", strlen(msg));
                                         lws_write(wsi, msg, 177148, lws_write_ws_flags(LWS_WRITE_TEXT, '1', '1'));
                                         free(msg);
                                         lws_callback_on_writable(wsi);

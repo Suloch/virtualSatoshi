@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <head>
+  <meta charset="utf-8"/>
   <title>Home</title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <style media="screen">
        #memory {
-      width: 486px;
-      height: 486px;
+      width: 1944px;
+      height: 1944px;
       margin-top: auto;
       margin-left: auto;
       margin-right: auto;
@@ -27,29 +28,19 @@
    </style>
 </head>
 <body>
-  <div id="memory"></div>
+  <canvas id="memory" width="1944" height="1944"></canvas>
+
 </body>
 
 <script type="text/javascript">
 var colors = {'0' : 'blue', '-': 'red', '+' : 'green'};
 var rows = 243;
 var columns = 243;
-var $row = $("<div />", {
-  class: 'row'
+var ctx;
+$(window).on('load', function(){
+  ctx = $("#memory")[0].getContext('2d');
 });
-var $square = $("<div />", {
-  class: 'square'
-});
-$(document).ready(function () {
-    //add columns to the the temp row object
-    for (var i = 0; i < columns; i++) {
-        $row.append($square.clone());
-    }
-    //clone the temp row object with the columns to the wrapper
-    for (var i = 0; i < rows; i++) {
-        $("#memory").append($row.clone());
-    }
-});
+
 $(window).on('beforeunload', function(){
   socket.close();
 });
@@ -63,11 +54,34 @@ $(window).on('beforeunload', function(){
       var mem = event.data;
       var c = 0;
       $("#memory").empty();
-      for(var i = 0; i < mem.length; i++)
+      for(var i = 0; i < 1944; i+=8)
       {
-        if(mem.charAt(i) != '0' &&  mem.charAt(i) != '+' && mem.charAt(i) != '-')
+        for(var j = 0; j < 1944; j+=8)
         {
-          console.log(mem.charAt(i));
+          if (mem[c] == '0')
+          {
+            ctx.fillStyle = "#000000";
+          }
+          else
+          {
+            if(mem[c] == '-')
+            {
+              ctx.fillStyle = "#00FF00";
+            }
+            else
+            {
+              if(mem[c] == '+')
+              {
+                ctx.fillStyle = "#0000FF";
+              }
+              else
+              {
+                console.log('okay');
+              }
+            }
+          }
+          c++;
+          ctx.fillRect(j, i, 8, 8);
         }
       }
   };
