@@ -13,7 +13,7 @@ pthread_mutex_t lock;
 int NUM_REG = 9;
 int LEN_REG = 9;
 int NUM_MEMORY =  19683; /* 3 ^ 9 = 19683 */
-int LEN_MEMORY = 9;
+int LEN_MEMORY = 1;
 int LEN_OPCODE = 3;
 int LEN_REG_NO = 3;
 int OFFSET = -9841;
@@ -380,9 +380,14 @@ char * get_machine_state(machine *m, int operation)
   pthread_mutex_lock(&lock);
   if(operation == 1)
   {
-    state = malloc(sizeof(char ) * ((NUM_MEMORY * LEN_MEMORY)+1));
+    state = malloc(sizeof(char ) * ((NUM_MEMORY * LEN_MEMORY)+82));
     memcpy(state, m -> M, NUM_MEMORY * LEN_MEMORY);
-    state[NUM_MEMORY * LEN_MEMORY] = '\0';
+    int i;
+    for(i = 0; i < NUM_REG; i++)
+    {
+      memcpy(state+(NUM_MEMORY * LEN_MEMORY)+(i * LEN_REG), m -> R[i], LEN_REG);
+    }
+    state[NUM_MEMORY * LEN_MEMORY + 81] = '\0';
     last_operation = 1;
     pthread_mutex_unlock(&lock);
     return NULL;
