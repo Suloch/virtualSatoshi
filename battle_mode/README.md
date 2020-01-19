@@ -54,7 +54,7 @@ Pikachu can unserstand the move names directly, therefore the assembler will con
 
 ```
 i_choose_you:
-  CHARGE_BEAM ELECTRIFY H_W -copies -14*9 + 13*3 + 8
+  CHARGE_BEAM ELECTRIFY H_W -copies -6*9 + 13*3 + 8
   DISCHARGE ELECTRIFY       -print the value of the register
   ZIPPY_ZAP                 -halt the machine
 ```
