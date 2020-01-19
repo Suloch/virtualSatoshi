@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Home</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <style media="screen">
+    #memory-container {
+    background-color: white;
+    overflow: hidden;
+    width: 1200px;
+    }
+
+    #inner {
+    overflow: hidden;
+    width: 2000px;
+    }
+
+    .child {
+    margin-left: 10px;
+    float: left;
+    background-color: pink;
+    width: 100px;
+    height: 729px;
+    }
+    .reg{
+      margin-top: 15px;
+    }
+   </style>
+</head>
+
+<body>
+  <div id="memory-container">
+    <div id="inner">
+      <canvas class="child" id="memory1" width="90" height="729"></canvas>
+      <canvas class="child" id="memory2" width="90" height="729"></canvas>
+      <canvas class="child" id="memory3" width="90" height="729"></canvas>
+      <canvas class="child" id="memory4" width="90" height="729"></canvas>
+      <canvas class="child" id="memory5" width="90" height="729"></canvas>
+      <canvas class="child" id="memory6" width="90" height="729"></canvas>
+      <canvas class="child" id="memory7" width="90" height="729"></canvas>
+      <canvas class="child" id="memory8" width="90" height="729"></canvas>
+      <canvas class="child" id="memory9" width="90" height="729"></canvas>
+      <div class="child" style="width:180px;">
+        <canvas class="reg" id="register1" width="180px" height="50px"></canvas>
+        <canvas class="reg" id="register2" width="180px" height="50px"></canvas>
+        <canvas class="reg" id="register3" width="180px" height="50px"></canvas>
+        <canvas class="reg" id="register4" width="180px" height="50px"></canvas>
+        <canvas class="reg" id="register5" width="180px" height="50px"></canvas>
+        <canvas class="reg" id="register6" width="180px" height="50px"></canvas>
+        <canvas class="reg" id="register7" width="180px" height="50px"></canvas>
+        <canvas class="reg" id="register8" width="180px" height="50px"></canvas>
+        <canvas class="reg" id="register9" width="180px" height="50px"></canvas>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script type="text/javascript">
+var colors = {'0' : 'blue', '-': 'red', '+' : 'green'};
+$(window).on('beforeunload', function(){
+  socket.close();
+});
+  socket = new WebSocket("ws://localhost:8000/",);
+  socket.onopen = function(e) {
+    console.log("[open] Connection established");
+    console.log("Sending to server");
+    socket.send("My name is John");
+  };
+  socket.onmessage = function(event) {
+      var mem = event.data;
+      var c = 0;
+      //memory
+      for(var i = 0; i < 9; i++)
+      {
+        ctx = $("#memory"+(i+1))[0].getContext('2d');
+        for(var j = 0; j < 9; j++)
+        {
+          {
+            for(var k = 0; k < 243; k++)
+            {
+              if (mem[c] == '0')
+              {
+                ctx.fillStyle = "#000000";
+              }
+              else
+              {
+                if(mem[c] == '-')
+                {
+                  ctx.fillStyle = "#00FF00";
+                }
+                else
+                {
+                  if(mem[c] == '+')
+                  {
+                    ctx.fillStyle = "#0000FF";
+                  }
+                  else
+                  {
+                    console.log('okay');
+                  }
+                }
+              }
+              c++;
+              ctx.fillRect( j*10, k*3, 10, 3);
+            }
+          }
+        }
+      }
+      //registers
+      for(i = 0; i < 9; i++)
+      {
+        ctx = $("#register"+(i+1))[0].getContext('2d');
+        for(j = 0; j < 9; j++)
+        {
+          if (mem[c] == '0')
+          {
+            ctx.fillStyle = "#000000";
+          }
+          else
+          {
+            if(mem[c] == '-')
+            {
+              ctx.fillStyle = "#00FF00";
+            }
+            else
+            {
+              if(mem[c] == '+')
+              {
+                ctx.fillStyle = "#0000FF";
+              }
+              else
+              {
+                console.log('okay');
+              }
+            }
+          }
+          c++;
+          ctx.fillRect( j*20, 0, 20, 50);
+        }
+      }
+  };
+</script>

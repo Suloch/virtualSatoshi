@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 #include "messages.h"
 #include "machine.h"
 #include "utils.h"
+#include "server.h"
 
 int main(int argc, char **argv)
 {
@@ -70,10 +72,19 @@ int main(int argc, char **argv)
   /*
     todo: execute the program
   */
+
+  /*start the server in another thread
+    */
+  pthread_t server_thread;
+  pthread_create(&server_thread, NULL, &start, NULL);
   execute_program(m);
   /*
   delete the machine
   */
   delete_machine(m);
+  /* wait for the server to exit
+  */
+  pthread_join(server_thread, NULL);
+
   return 0;
 }

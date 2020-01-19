@@ -3,11 +3,17 @@
 #include "utils.h"
 #include "instruction.h"
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include<stdio.h>
+#include <pthread.h>
+
+pthread_mutex_t lock;
 
 int NUM_REG = 9;
 int LEN_REG = 9;
 int NUM_MEMORY =  19683; /* 3 ^ 9 = 19683 */
-int LEN_MEMORY = 6;
+int LEN_MEMORY = 1;
 int LEN_OPCODE = 3;
 int LEN_REG_NO = 3;
 int OFFSET = -9841;
@@ -45,7 +51,7 @@ machine *init_machine()
   {
     for(j = 0; j < LEN_REG; j++)
     {
-      m -> R[i][j] = 0;
+      m -> R[i][j] = '0';
     }
   }
   /*
@@ -62,7 +68,7 @@ machine *init_machine()
 
   for(i = 0; i < NUM_MEMORY * LEN_MEMORY; i++)
   {
-      m -> M[i] = 0;
+      m -> M[i] = '0';
   }
 
   return m;
@@ -140,6 +146,8 @@ int execute_program(machine *m)
   char * op1, *op2;
   while(1)
   {
+    get_machine_state(m, 1);
+    sleep(2);
     /*
     read opcode(3 trits) starting from memory pointed by program counter
     */
@@ -363,4 +371,43 @@ int execute_program(machine *m)
       default : /*generate not implemented error*/;
     }
   }
+}
+
+char * get_machine_state(machine *m, int operation)
+{
+  static int last_operation;
+  static char * state = NULL;
+  pthread_mutex_lock(&lock);
+  if(operation == 1)
+  {
+    state = malloc(sizeof(char ) * ((NUM_MEMORY * LEN_MEMORY)+82));
+    memcpy(state, m -> M, NUM_MEMORY * LEN_MEMORY);
+    int i;
+    for(i = 0; i < NUM_REG; i++)
+    {
+      memcpy(state+(NUM_MEMORY * LEN_MEMORY)+(i * LEN_REG), m -> R[i], LEN_REG);
+    }
+    state[NUM_MEMORY * LEN_MEMORY + 81] = '\0';
+    last_operation = 1;
+    pthread_mutex_unlock(&lock);
+    return NULL;
+  }
+
+  if(operation == 2)
+  {
+    if(last_operation == 1)
+    {
+      last_operation = 2;
+      pthread_mutex_unlock(&lock);
+      return state;
+
+    }
+    else
+    {
+      pthread_mutex_unlock(&lock);
+      return NULL;
+    }
+  }
+  pthread_mutex_unlock(&lock);
+  return NULL;
 }
