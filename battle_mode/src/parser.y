@@ -5,6 +5,7 @@
   #include<stdio.h>
   #include "symbol_table.h"
   #include "utils.h"
+
   /*
    * size of the table
    */
@@ -26,26 +27,35 @@
    */
   symbol table[100];
   int table_index = 0;
+
   /*
-   * int to represent which pass of the parser is running
-   * pass = 0 for creating the symbol table
-   * pass = 1 for writing the output file
+   * string to be stored in the file
    */
-  int pass = 0;
+   char *output = NULL;
 %}
 
 %union {char *string;}
 %start Program
 
-%token COMMENT_START COMMENT_END SPACE NEW_LINE LABEL_END SPACE
+%token COMMENT_START COMMENT_END SPACE NEW_LINE LABEL_END
 %token <string> LABEL CODE COMMENT
 
 %%
 
 Program :                                                                       {}
           | Program Whitespace COMMENT_START COMMENT COMMENT_END                {}
-          | Program Whitespace CODE Whitespace                                  {if(!pass){offset = offset + calculate_length($3);}}
-          | Program Whitespace LABEL Whitespace LABEL_END Whitespace NEW_LINE   {if(!pass){if(find_symbol(table, SIZE, $3) == -1){set_symbol(table, table_index, $3, offset); table_index++;}}}
+          | Program Whitespace CODE Whitespace                                  { offset = offset + calculate_length($3);}
+          | Program Whitespace LABEL Whitespace LABEL_END Whitespace NEW_LINE   {
+                                                                                  if(find_symbol(table, table_index, $3) == -1)
+                                                                                  {
+                                                                                    set_symbol(table, table_index, $3, offset);
+                                                                                    table_index++;
+                                                                                  }
+                                                                                  else
+                                                                                  {
+                                                                                    yyerror($3);
+                                                                                  }
+                                                                                }
           | Program Whitespace NEW_LINE                                         {}
           ;
 Whitespace:                                                                     {}
@@ -66,7 +76,20 @@ int main(int argc, char **argv)
     printf("Cannot open the given file");
     return 124;
   }
+  /*
+   * create the symbol table
+   */
   yyparse();
+  /*
+   * set the pass = 1 for next pass of the assembler
+   */
+  yyreset();
+
+  /*
+   * generate the output file
+   */
+   yyparse();
+
 }
 void yyerror(char *e)
 {

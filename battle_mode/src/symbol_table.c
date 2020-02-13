@@ -6,7 +6,11 @@
 int create_table(int size)
 {
   symbol *table = malloc(size * sizeof(table));
-  return table;
+  if(table == NULL)
+  {
+    return 1;
+  }
+  return 0;
 }
 
 int find_symbol(symbol *table, int size, char *name)

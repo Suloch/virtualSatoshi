@@ -1,4 +1,4 @@
-TARGET = chirp
+TARGET = bm
 LIBS = -lfl -lm
 CC = gcc
 CFLAGS = -Wall
@@ -32,5 +32,5 @@ test:
 clean:
 	-rm -f *.o
 	-rm -f $(TARGET)
-	-rm -f lex.yy.c y.tab.c
+	-rm -f lex.yy.c y.tab.c y.tab.h
 	make -C test clean
