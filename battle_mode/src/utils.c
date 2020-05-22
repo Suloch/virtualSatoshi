@@ -1,15 +1,20 @@
 #include "utils.h"
 #include <string.h>
 #include <stdlib.h>
-#include<stdio.h>
+#include <stdio.h>
 
-int create_node_code_code(code_node *node, int code)
+int create_node_code_code(code_node **head, int code)
 {
   code_node *new_node_code = malloc(sizeof(code_node));
   new_node_code -> node_type = 'C';
   new_node_code -> value.code = code;
   new_node_code -> next = NULL;
-
+  code_node * node = *head;
+  if(node == NULL){
+    *head = new_node_code;
+    return 0;
+  }
+  
   while(node -> next != NULL)
   {
     node = node -> next;
@@ -18,13 +23,19 @@ int create_node_code_code(code_node *node, int code)
   return 0;
 }
 
-int create_node_code_label(code_node *node, char *label)
+int create_node_code_label(code_node **head, char *label)
 {
   code_node *new_node_code = malloc(sizeof(code_node));
-  new_node_code -> node_type = 'L';
+  code_node *node = *head;
+  new_node_code->node_type = 'L';
   new_node_code -> value.label = malloc(strlen(label)+1);
   strcpy(new_node_code -> value.label, label);
   new_node_code -> next = NULL;
+  if (node == NULL)
+  {
+    *head = new_node_code;
+    return 0;
+  }
   while(node -> next != NULL)
   {
     node = node -> next;
@@ -37,19 +48,19 @@ int is_register(char *name)
 {
     char registers[7][15] = {"ELECTRIFY", "ELECTROWEB", "NUZZLE", "OVERDRIVE", "SPARK", "THUNDER", "CATASTROPIKA"};
     int i;
-    for(i = 0; i < 6; i++)
+    for(i = 0; i < 7; i++)
     {
       if(strcmp(registers[i], name) == 0)
       {
-        return i;
+        return i+1;
       }
     }
     return 0;
 }
 int is_opcode(char *op_code)
 {
-  char op_code_label[13][15] = {"", "", "", "", "", "", "", "", "", "", "", "", ""};
-  int op_code_value[13] = {0 ,0, 0, 0, 0, 0 ,0, 0, 0, 0, 0 ,0, 0};
+  char op_code_label[13][15] = {"CHARGE", "CHARGE_BEAM", "DISCHARGE", "THUNDER_FANG", "THUNDER_PUNCH", "THUNDER_SHOCK", "THUNDER_WAVE", "ION_DELUGE", "WILD_CHARGE", "BOLT_STRIKE", "BOLT_BEAK", "VOLT_TACKLE", "ZIPPY_ZAP"};
+  int op_code_value[13] = {-12 ,-11, -10, -9, -8, -7 ,-6, -5, -4, -3, -2 ,-1, 0};
   int i;
   for(i = 0; i < 13; i++)
   {
@@ -128,8 +139,8 @@ int is_ternary(char *code, int *val)
         }
       }
     }
+    else
     {
-      else
       /*
        * value of '-' is 13
        */
@@ -139,7 +150,7 @@ int is_ternary(char *code, int *val)
   return 1;
 }
 
-int create_node(code_node *head, char *code)
+int create_node(code_node **head, char *code)
 {
   /*
    * inputs a line of code and create nodes of the linked list
@@ -147,7 +158,6 @@ int create_node(code_node *head, char *code)
    */
   char * tok = strtok(code, " ");
   int offset = 3;
-  tok = strtok(NULL, " ");
   int code_val;
   /*
    * first element must be the op_code
@@ -168,6 +178,7 @@ int create_node(code_node *head, char *code)
      */
     create_node_code_code(head, code_val);
   }
+  tok = strtok(NULL, " ");
   while(tok != NULL)
   {
     /*

@@ -32,6 +32,11 @@
    * string to be stored in the file
    */
    char *output = NULL;
+  
+  /*
+   * head of the program code
+   */
+   code_node *head = NULL;
 %}
 
 %union {char *string;}
@@ -44,7 +49,7 @@
 
 Program :                                                                       {}
           | Program Whitespace COMMENT_START COMMENT COMMENT_END                {}
-          | Program Whitespace CODE Whitespace                                  { offset = offset + calculate_length($3);}
+          | Program Whitespace CODE Whitespace                                  { offset = offset + create_node(&head, $3);}
           | Program Whitespace LABEL Whitespace LABEL_END Whitespace NEW_LINE   {
                                                                                   if(find_symbol(table, table_index, $3) == -1)
                                                                                   {
@@ -80,15 +85,22 @@ int main(int argc, char **argv)
    * create the symbol table
    */
   yyparse();
-  /*
-   * set the pass = 1 for next pass of the assembler
-   */
-  yyreset();
 
-  /*
-   * generate the output file
-   */
-   yyparse();
+  while(head != NULL)
+  {
+    printf("+-------------------------------------+\n");
+    if(head -> node_type == 'C')
+    {
+      printf("|%37i|\n", head -> value.code); 
+    }
+    else
+    {
+      printf("|%37s|\n", head -> value.label); 
+    }
+
+    printf("+-------------------------------------+\n");
+    head = head -> next;
+  }
 
 }
 void yyerror(char *e)
