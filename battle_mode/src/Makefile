@@ -1,7 +1,7 @@
 TARGET = bm
 LIBS = -lfl -lm
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 
 .PHONY: default all test clean
 

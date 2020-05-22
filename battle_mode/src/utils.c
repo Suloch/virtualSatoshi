@@ -61,7 +61,7 @@ int is_register(char *name)
 int is_opcode(char *op_code)
 {
   char op_code_label[13][15] = {"CHARGE", "CHARGE_BEAM", "DISCHARGE", "THUNDER_FANG", "THUNDER_PUNCH", "THUNDER_SHOCK", "THUNDER_WAVE", "ION_DELUGE", "WILD_CHARGE", "BOLT_STRIKE", "BOLT_BEAK", "VOLT_TACKLE", "ZIPPY_ZAP"};
-  int op_code_value[13] = {-12 ,-11, -10, -9, -8, -7 ,-6, -5, -4, -3, -2 ,-1, 0};
+  int op_code_value[13] = {-12 ,-11, -2, 1, 2, 4 , 3, -11, -10, -9, -8 ,-7, 0};
   int i;
   for(i = 0; i < 13; i++)
   {

@@ -105,11 +105,11 @@ int main(int argc, char **argv)
   FILE * fp = NULL;
   if(argc < 3)
   {
-    fp = fopen("output", "w+");
+    fp = fopen("output", "w");
   }
   else
   {
-    fp = fopen(argv[2], "w+");
+    fp = fopen(argv[2], "w");
   }
   if(fp == NULL)
   {
