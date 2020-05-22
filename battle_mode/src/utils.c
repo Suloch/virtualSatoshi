@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int create_node_code_code(code_node **head, int code)
+int create_node_code_code(code_node **head, int code, char code_type)
 {
   code_node *new_node_code = malloc(sizeof(code_node));
   new_node_code -> node_type = 'C';
   new_node_code -> value.code = code;
+  new_node_code -> code_type = code_type;
   new_node_code -> next = NULL;
   code_node * node = *head;
   if(node == NULL){
@@ -176,7 +177,7 @@ int create_node(code_node **head, char *code)
     /*
      * create a node with the value of the opcode
      */
-    create_node_code_code(head, code_val);
+    create_node_code_code(head, code_val, 'O');
   }
   tok = strtok(NULL, " ");
   while(tok != NULL)
@@ -190,7 +191,7 @@ int create_node(code_node **head, char *code)
       /*
        * if the code is register value add it to the list
        */
-      create_node_code_code(head, code_val);
+      create_node_code_code(head, code_val, 'R');
       offset += 3;
     }
     else
@@ -200,7 +201,7 @@ int create_node(code_node **head, char *code)
        */
       if(is_ternary(tok, &code_val))
       {
-        create_node_code_code(head, code_val);
+        create_node_code_code(head, code_val, 'V');
       }
       else
       {

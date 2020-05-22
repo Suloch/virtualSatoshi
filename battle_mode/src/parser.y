@@ -5,7 +5,7 @@
   #include<stdio.h>
   #include "symbol_table.h"
   #include "utils.h"
-
+  #include "conversion.h"
   /*
    * size of the table
    */
@@ -37,6 +37,8 @@
    * head of the program code
    */
    code_node *head = NULL;
+
+   char pikachu[3][7] = {"PI", "PIKA", "PIKACHU"};
 %}
 
 %union {char *string;}
@@ -68,13 +70,25 @@ Whitespace:                                                                     
           ;
 
 %%
+int ternary_to_pikachu(char trit)
+{
+  switch(trit)
+  {
+    case '+': return 2;
+    case '0': return 1;
+    case '-': return 0;
+  }
+  return -1;
+}
+
 int main(int argc, char **argv)
 {
-  if (argc < 1)
+  if (argc < 2)
   {
-    printf("No file given");
+    printf("No input file given");
     return 123;
   }
+
   yyin = fopen(argv[1], "r");
   if(yyin == NULL)
   {
@@ -85,23 +99,61 @@ int main(int argc, char **argv)
    * create the symbol table
    */
   yyparse();
-
+  char value3[10];
+  char value9[10];
+  int i;
+  FILE * fp = NULL;
+  if(argc < 3)
+  {
+    fp = fopen("output", "w+");
+  }
+  else
+  {
+    fp = fopen(argv[2], "w+");
+  }
+  if(fp == NULL)
+  {
+    printf("unable to open output file\n");
+    return 125;
+  }
   while(head != NULL)
   {
-    printf("+-------------------------------------+\n");
+    printf("+---------+\n");
     if(head -> node_type == 'C')
     {
-      printf("|%37i|\n", head -> value.code); 
+      if(head -> code_type == 'O' || head -> code_type == 'R')
+      {
+        decimal_to_ternary(head -> value.code, value3, 3);
+        for(i = 0; i < 3; i++)
+        {
+          fprintf(fp, "%s ", pikachu[ternary_to_pikachu(value3[i])]);
+        }
+        printf("|%9s|\n", value3); 
+      }
+      else
+      {
+        decimal_to_ternary(head -> value.code, value9, 9);
+        for(i = 0; i < 9; i++)
+        {
+          fprintf(fp, "%s ", pikachu[ternary_to_pikachu(value9[i])]);
+        }
+        printf("|%9s|\n", value9); 
+      }
+
     }
     else
     {
-      printf("|%37s|\n", head -> value.label); 
+      printf("|%9s|\n", head -> value.label); 
     }
+    printf("+---------+\n\n");
 
-    printf("+-------------------------------------+\n");
     head = head -> next;
   }
-
+  for(i = 0; i < table_index; i++)
+  {
+    printf("%s -> %i\n", table[i].name, table[i].value);
+  }
+  fclose(fp);
 }
 void yyerror(char *e)
 {
