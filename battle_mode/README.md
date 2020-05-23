@@ -17,8 +17,8 @@ Pikachu can unserstand the move names directly, therefore the assembler will con
 ## Move List
 |Instruction Name | Functionality                     | Example                                     |       |
 |-----------------|-----------------------------------|---------------------------------------------|-------|
-|CHARGE           |move value between 2 registers     |CHARGE ELECTRIFY ELECTROWEB                  | -12   |
-|CHARGE_BEAM      |copy immediate value to a reg      |CHARGE_BEAM ELECTRIFY ASD                    | -11   |
+|CHARGE           |move value between 2 registers     |CHARGE ELECTRIFY ELECTROWEB                  | -13   |
+|CHARGE_BEAM      |copy immediate value to a reg      |CHARGE_BEAM ELECTRIFY ASD                    | -12   |
 |DISCHARGE        |display a register                 |DISCHARGE ELECTRIFY                          |  -2   |
 |THUNDER_FANG     |jump to input location             |THUNDER_FANG AVF                             |  1    |
 |THUNDER_PUNCH    |jump if flag register is 0         |THUNDER_PUNCH AVF                            |  2    |

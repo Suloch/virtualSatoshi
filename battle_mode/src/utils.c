@@ -61,7 +61,7 @@ int is_register(char *name)
 int is_opcode(char *op_code)
 {
   char op_code_label[13][15] = {"CHARGE", "CHARGE_BEAM", "DISCHARGE", "THUNDER_FANG", "THUNDER_PUNCH", "THUNDER_SHOCK", "THUNDER_WAVE", "ION_DELUGE", "WILD_CHARGE", "BOLT_STRIKE", "BOLT_BEAK", "VOLT_TACKLE", "ZIPPY_ZAP"};
-  int op_code_value[13] = {-12 ,-11, -2, 1, 2, 4 , 3, -11, -10, -9, -8 ,-7, 0};
+  int op_code_value[13] = {-13 ,-12, -2, 1, 2, 4 , 3, -11, -10, -9, -8 ,-7, 0};
   int i;
   for(i = 0; i < 13; i++)
   {
@@ -104,21 +104,21 @@ int is_ternary(char *code, int *val)
       }
       else
       {
-        if(code[i] >= 65 || code[i] <= 78)
+        if(code[i] >= 65 && code[i] <= 77)
         {
           /*
            * A to M is -13 to -1
            */
-          *val = (*val * 9) + code [i]- 78;
+          *val = (*val * 27) + code [i]- 77;
         }
         else
         {
-            if(code[i] >= 81 || code[i] <= 92)
+            if(code[i] >= 80 && code[i] <= 91)
             {
               /*
-               * P to M is 1 to 11
+               * P to Z is 1 to 11
                */
-               *val = (*val * 9) + code[i] - 80;
+               *val = (*val * 27) + code[i] - 79;
             }
             else
             {
@@ -127,14 +127,14 @@ int is_ternary(char *code, int *val)
                 /*
                  * O is 0
                  */
-                 *val = (*val * 9);
+                 *val = (*val * 27);
               }
               else
               {
                 /*
                  * N is 12
                  */
-                 *val = (*val * 9) + 12;
+                 *val = (*val * 27) + 12;
               }
             }
         }
@@ -145,7 +145,7 @@ int is_ternary(char *code, int *val)
       /*
        * value of '-' is 13
        */
-      *val = (*val * 9) + 13;
+      *val = (*val * 27) + 13;
     }
   }
   return 1;

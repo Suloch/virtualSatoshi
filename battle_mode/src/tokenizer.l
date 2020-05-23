@@ -24,6 +24,7 @@ Code [A-Z_ ]
 <Comments>[^\n]*                            {yylval.string = yytext; return COMMENT;}
 <Comments>[\n]                              {BEGIN(0); return COMMENT_END;}
 ":"                                         {return LABEL_END;}
+{Code}+{Label}*                             {yylval.string = copytext(yytext); return CODE;}
 {Label}*                                    {yylval.string = copytext(yytext); return LABEL;}
 {Code}*                                     {yylval.string = copytext(yytext); return CODE;}
 [ \t]                                       {return SPACE;}

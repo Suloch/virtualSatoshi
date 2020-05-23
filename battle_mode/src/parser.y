@@ -39,6 +39,8 @@
    code_node *head = NULL;
 
    char pikachu[3][7] = {"PI", "PIKA", "PIKACHU"};
+
+   int OFFSET = -9841;
 %}
 
 %union {char *string;}
@@ -143,7 +145,14 @@ int main(int argc, char **argv)
     }
     else
     {
-      printf("|%9s|\n", head -> value.label); 
+      printf("|%9s|\n", head -> value.label);
+      int location = find_symbol(table, table_index, head -> value.label); 
+      decimal_to_ternary(location+OFFSET, value9, 9);
+      for(i = 0; i < 9; i++)
+      {
+        fprintf(fp, "%s ", pikachu[ternary_to_pikachu(value9[i])]);
+      }
+        printf("|%9s|\n", value9); 
     }
     printf("+---------+\n\n");
 
