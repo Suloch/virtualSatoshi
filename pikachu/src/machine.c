@@ -318,7 +318,7 @@ int execute_program(machine *m)
                 {
                   /*if flag is not zero skip 12 trits used for the instruction
                   */
-                  decimal_to_ternary(program_counter + OFFSET + 12, m -> R[8], LEN_REG);
+                  decimal_to_ternary(program_counter + OFFSET + 9, m -> R[8], LEN_REG);
                 }
                 break;
 
@@ -337,7 +337,7 @@ int execute_program(machine *m)
                 {
                   /*if flag is 1 skip 12 trits used for the instruction
                   */
-                  decimal_to_ternary(program_counter + OFFSET + 12, m -> R[8], LEN_REG);
+                  decimal_to_ternary(program_counter + OFFSET + 9, m -> R[8], LEN_REG);
                 }
                 break;
 
@@ -356,7 +356,7 @@ int execute_program(machine *m)
                 {
                   /*if flag is -1 skip 12 trits used for the instruction
                   */
-                  decimal_to_ternary(program_counter + OFFSET + 12, m -> R[8], LEN_REG);
+                  decimal_to_ternary(program_counter + OFFSET + 9, m -> R[8], LEN_REG);
                 }
                 break;
 
